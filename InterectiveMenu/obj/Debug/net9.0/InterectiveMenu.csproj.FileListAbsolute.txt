@@ -1,0 +1,15 @@
+D:\University\DGD208-Programming2\DGD208-Spring2025-YasienKattan\InterectiveMenu\bin\Debug\net9.0\InterectiveMenu.exe
+D:\University\DGD208-Programming2\DGD208-Spring2025-YasienKattan\InterectiveMenu\bin\Debug\net9.0\InterectiveMenu.deps.json
+D:\University\DGD208-Programming2\DGD208-Spring2025-YasienKattan\InterectiveMenu\bin\Debug\net9.0\InterectiveMenu.runtimeconfig.json
+D:\University\DGD208-Programming2\DGD208-Spring2025-YasienKattan\InterectiveMenu\bin\Debug\net9.0\InterectiveMenu.dll
+D:\University\DGD208-Programming2\DGD208-Spring2025-YasienKattan\InterectiveMenu\bin\Debug\net9.0\InterectiveMenu.pdb
+D:\University\DGD208-Programming2\DGD208-Spring2025-YasienKattan\InterectiveMenu\obj\Debug\net9.0\InterectiveMenu.GeneratedMSBuildEditorConfig.editorconfig
+D:\University\DGD208-Programming2\DGD208-Spring2025-YasienKattan\InterectiveMenu\obj\Debug\net9.0\InterectiveMenu.AssemblyInfoInputs.cache
+D:\University\DGD208-Programming2\DGD208-Spring2025-YasienKattan\InterectiveMenu\obj\Debug\net9.0\InterectiveMenu.AssemblyInfo.cs
+D:\University\DGD208-Programming2\DGD208-Spring2025-YasienKattan\InterectiveMenu\obj\Debug\net9.0\InterectiveMenu.csproj.CoreCompileInputs.cache
+D:\University\DGD208-Programming2\DGD208-Spring2025-YasienKattan\InterectiveMenu\obj\Debug\net9.0\InterectiveMenu.sourcelink.json
+D:\University\DGD208-Programming2\DGD208-Spring2025-YasienKattan\InterectiveMenu\obj\Debug\net9.0\InterectiveMenu.dll
+D:\University\DGD208-Programming2\DGD208-Spring2025-YasienKattan\InterectiveMenu\obj\Debug\net9.0\refint\InterectiveMenu.dll
+D:\University\DGD208-Programming2\DGD208-Spring2025-YasienKattan\InterectiveMenu\obj\Debug\net9.0\InterectiveMenu.pdb
+D:\University\DGD208-Programming2\DGD208-Spring2025-YasienKattan\InterectiveMenu\obj\Debug\net9.0\InterectiveMenu.genruntimeconfig.cache
+D:\University\DGD208-Programming2\DGD208-Spring2025-YasienKattan\InterectiveMenu\obj\Debug\net9.0\ref\InterectiveMenu.dll

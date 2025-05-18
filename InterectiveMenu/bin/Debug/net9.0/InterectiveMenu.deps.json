@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "InterectiveMenu/1.0.0": {
+        "runtime": {
+          "InterectiveMenu.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "InterectiveMenu/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
