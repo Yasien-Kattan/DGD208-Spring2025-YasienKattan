@@ -69,10 +69,18 @@ class Program
     private static void StartNewGame()
     {
         Console.Clear();
-        Console.WriteLine("\u001b[36mEnter your pet's name:\u001b[0m");
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine("Choose your pet's species:");
+        Console.ResetColor();
+
+        Menu speciesMenu = new Menu(new[] { "Dog", "Cat" }, 0, 3);
+        int speciesChoice = speciesMenu.Run();
+        string species = speciesChoice == 0 ? "Dog" : "Cat";
+
+        Console.WriteLine("\n\u001b[36mEnter your pet's name:\u001b[0m");
         string petName = Console.ReadLine();
 
-        Pet pet = new Pet(petName);
+        Pet pet = new Pet(petName, species);
         bool exitPetMenu = false;
 
         while (!exitPetMenu)
@@ -81,11 +89,14 @@ class Program
 
             Console.Clear();
             Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($"Pet Simulation: {pet.Name}");
+            Console.WriteLine($"Pet Simulation: {pet.Name} the {pet.Species}");
+            pet.DisplayArt();
             Console.ResetColor();
+            
+            int menuStartRow = Console.CursorTop + 1;
             Console.WriteLine("Choose an action:");
-
-            Menu petMenu = new Menu(new[] { "Feed", "Play", "Rest", "Status", "Exit" }, 0, 5);
+            
+            Menu petMenu = new Menu(new[] { "Feed", "Play", "Rest", "Status", "Exit" }, 0, menuStartRow + 1);
             int petChoice = petMenu.Run();
 
             switch (petChoice)
