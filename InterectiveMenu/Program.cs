@@ -1,105 +1,171 @@
 ﻿using System;
+using System.Collections.Generic;
 
 class Program
 {
-    static void Main(string[] args)
-    {
-        bool exit = false;
+    static List<Pet> pets = new List<Pet>();
+    static Pet? playerPet = null;
 
-        while (!exit)
+    static void Main()
+    {
+        Console.Title = "C# Pet Simulator";
+
+        while (true)
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("Welcome to the C# world!");
-            Console.ResetColor();
-            Console.WriteLine("Use ⬆ and ⬇ arrow keys to navigate the menu and press the \u001b[32mEnter/Return\u001b[0m key to select.");
-
-            Menu mainMenu = new Menu(new[] { "Start Game", "Settings", "Exit" }, 0, 5);
+            string[] mainOptions = { "Start Game", "Credits", "Exit" };
+            var mainMenu = new Menu(mainOptions, 2, 2);
             int mainChoice = mainMenu.Run();
 
             switch (mainChoice)
             {
                 case 0:
-                    HandleGameMenu();
+                    StartGame();
                     break;
                 case 1:
-                    HandleSettings();
+                    ShowCredits();
                     break;
                 case 2:
-                    exit = true;
+                    Environment.Exit(0);
                     break;
             }
         }
-
-        Console.WriteLine("\n\u001b[32mGoodbye!\u001b[0m");
     }
 
-    private static void HandleGameMenu()
+    static void ShowCredits()
     {
-        bool back = false;
+        Console.Clear();
+        Console.WriteLine("C# Pet Simulator");
+        Console.WriteLine("Created by Yaseen Kattan");
+        Console.WriteLine("Course: DGD208 - Programming II");
+        Console.WriteLine("Ricardo Gerbaudo's Interactive Menu in Console App Using C# from Youtube");
+        Console.WriteLine("https://www.youtube.com/watch?v=YyD1MRJY0qI&t=21s");
+        Console.WriteLine("GPT-4 for accsi art and fixing the Interactive Menu");
+        Console.WriteLine("\nPress any key to return to the main menu...");
+        Console.ReadKey();
+    }
 
-        while (!back)
+    static void StartGame()
+    {
+        bool inGame = true;
+        while (inGame)
         {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine("Game Menu");
-            Console.ResetColor();
-            Console.WriteLine("Choose your game option:");
-
-            Menu gameMenu = new Menu(new[] { "New Game", "Load Game", "Back" }, 0, 5);
+            string[] startOptions = {
+                "Create New Pet",
+                "Play With My Pet",
+                "View All Pet Stats",
+                "Return to Main Menu"
+            };
+            var gameMenu = new Menu(startOptions, 2, 2);
             int gameChoice = gameMenu.Run();
 
             switch (gameChoice)
             {
                 case 0:
-                    StartNewGame();
+                    CreatePet();
                     break;
                 case 1:
-                    Console.WriteLine("\n\u001b[32mLoad Game functionality under construction...\u001b[0m");
-                    Console.WriteLine("Press any key to return to the game menu.");
-                    Console.ReadKey();
+                    if (pets.Count > 0)
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Choose a pet to interact with:\n");
+
+                        string[] petOptions = new string[pets.Count];
+                        for (int i = 0; i < pets.Count; i++)
+                        {
+                            petOptions[i] = $"{pets[i].Name} the {pets[i].Species}";
+                        }
+
+                        var petMenu = new Menu(petOptions, 2, 2);
+                        int selectedPetIndex = petMenu.Run();
+
+                        InteractWithPet(pets[selectedPetIndex]);
+                    }
+                    else
+                    {
+                        Console.WriteLine("\n\u001b[31mNo pets have been created yet!\u001b[0m");
+                        Console.WriteLine("Press any key to continue...");
+                        Console.ReadKey();
+                    }
                     break;
                 case 2:
-                    back = true;
+                    ShowAllPetStats();
+                    break;
+                case 3:
+                    inGame = false;
                     break;
             }
         }
     }
 
-    private static void StartNewGame()
+    static void CreatePet()
     {
         Console.Clear();
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("Choose your pet's species:");
-        Console.ResetColor();
+        Console.WriteLine("Choose species: Dog, Cat, Rabbit, Squirrel");
+        Console.Write("Species: ");
+        string species = Console.ReadLine()?.Trim() ?? "Dog";
 
-        Menu speciesMenu = new Menu(new[] { "Dog", "Cat" }, 0, 3);
-        int speciesChoice = speciesMenu.Run();
-        string species = speciesChoice == 0 ? "Dog" : "Cat";
+        Console.Write("Choose a name for your pet: ");
+        string name = Console.ReadLine()?.Trim() ?? "Buddy";
 
-        Console.WriteLine("\n\u001b[36mEnter your pet's name:\u001b[0m");
-        string petName = Console.ReadLine();
+        playerPet = new Pet(name, species);
+        pets.Add(playerPet);
 
-        Pet pet = new Pet(petName, species);
-        bool exitPetMenu = false;
+        Console.WriteLine($"\n\u001b[32mYou created {name} the {species}!\u001b[0m");
+        Console.WriteLine("Press any key to continue...");
+        Console.ReadKey();
+    }
 
-        while (!exitPetMenu)
+    static void ShowAllPetStats()
+    {
+        Console.Clear();
+        Console.WriteLine("\u001b[36mAll Created Pets:\u001b[0m\n");
+
+        if (pets.Count == 0)
         {
-            pet.Update();
+            Console.WriteLine("\u001b[31mNo pets have been created yet.\u001b[0m");
+        }
+        else
+        {
+            foreach (var pet in pets)
+            {
+                pet.Status();
+                Console.WriteLine();
+            }
+        }
 
+        Console.WriteLine("Press any key to return...");
+        Console.ReadKey();
+    }
+
+    static void InteractWithPet(Pet pet)
+    {
+        bool interacting = true;
+        while (interacting)
+        {
             Console.Clear();
-            Console.ForegroundColor = ConsoleColor.Cyan;
-            Console.WriteLine($"Pet Simulation: {pet.Name} the {pet.Species}");
-            pet.DisplayArt();
-            Console.ResetColor();
-            
-            int menuStartRow = Console.CursorTop + 1;
-            Console.WriteLine("Choose an action:");
-            
-            Menu petMenu = new Menu(new[] { "Feed", "Play", "Rest", "Status", "Exit" }, 0, menuStartRow + 1);
-            int petChoice = petMenu.Run();
 
-            switch (petChoice)
+            // Display status
+            Console.WriteLine($"{pet.Name}'s Status ({pet.Species}):");
+            Console.WriteLine($"Hunger: {pet.Hunger}/10");
+            Console.WriteLine($"Happiness: {pet.Happiness}/10");
+            Console.WriteLine($"Energy: {pet.Energy}/10");
+            Console.WriteLine();
+
+            // Display ASCII art
+            pet.DisplayArt();
+
+            // Add blank lines to separate from menu
+            Console.WriteLine();
+            Console.WriteLine();
+
+            // Menu starts below the art
+            string[] actions = { "Feed", "Play", "Rest", "Back" };
+            var actionMenu = new Menu(actions, 10, 2); // Ensure enough vertical space
+            int choice = actionMenu.Run();
+
+            switch (choice)
             {
                 case 0:
                     pet.Feed();
@@ -111,26 +177,15 @@ class Program
                     pet.Rest();
                     break;
                 case 3:
-                    pet.Status();
-                    break;
-                case 4:
-                    exitPetMenu = true;
+                    interacting = false;
                     break;
             }
 
-            if (!exitPetMenu)
+            if (interacting)
             {
                 Console.WriteLine("\nPress any key to continue...");
                 Console.ReadKey();
             }
         }
-    }
-
-    private static void HandleSettings()
-    {
-        Console.Clear();
-        Console.WriteLine("\u001b[32mSettings menu under construction...\u001b[0m");
-        Console.WriteLine("Press any key to return to the main menu.");
-        Console.ReadKey();
     }
 }

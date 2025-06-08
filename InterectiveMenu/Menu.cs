@@ -6,6 +6,7 @@ public class Menu
     private readonly int _left;
     private readonly int _top;
     private int _selectedIndex;
+    private int _lastIndex;
 
     public Menu(string[] options, int left, int top)
     {
@@ -13,6 +14,7 @@ public class Menu
         _left = left;
         _top = top;
         _selectedIndex = 0;
+        _lastIndex = -1;
     }
 
     public int Run()
@@ -25,21 +27,27 @@ public class Menu
 
         while (!isSelected)
         {
-            key = Console.ReadKey(true);
-
-            switch (key.Key)
+            if (Console.KeyAvailable)
             {
-                case ConsoleKey.DownArrow:
-                    _selectedIndex = (_selectedIndex == _options.Length - 1) ? 0 : _selectedIndex + 1;
+                key = Console.ReadKey(true);
+
+                switch (key.Key)
+                {
+                    case ConsoleKey.DownArrow:
+                        _selectedIndex = (_selectedIndex + 1) % _options.Length;
+                        break;
+
+                    case ConsoleKey.UpArrow:
+                        _selectedIndex = (_selectedIndex - 1 + _options.Length) % _options.Length;
+                        break;
+
+                    case ConsoleKey.Enter:
+                        isSelected = true;
+                        break;
+                }
+
+                if (!isSelected)
                     DrawMenu();
-                    break;
-                case ConsoleKey.UpArrow:
-                    _selectedIndex = (_selectedIndex == 0) ? _options.Length - 1 : _selectedIndex - 1;
-                    DrawMenu();
-                    break;
-                case ConsoleKey.Enter:
-                    isSelected = true;
-                    break;
             }
         }
 
@@ -52,11 +60,20 @@ public class Menu
         for (int i = 0; i < _options.Length; i++)
         {
             Console.SetCursorPosition(_left, _top + i);
-            Console.Write(new string(' ', Console.WindowWidth - _left));
+
+            string line = new string(' ', Console.WindowWidth - _left - 1); // Clear old content
+            Console.Write(line);
+
             Console.SetCursorPosition(_left, _top + i);
 
-            string prefix = _selectedIndex == i ? "✔   \u001b[32m" : "    ";
-            Console.WriteLine($"{prefix}{_options[i]}\u001b[0m");
+            if (i == _selectedIndex)
+            {
+                Console.Write($"✔   \u001b[32m{_options[i]}\u001b[0m");
+            }
+            else
+            {
+                Console.Write($"    {_options[i]}");
+            }
         }
     }
 }

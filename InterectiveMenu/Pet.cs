@@ -59,6 +59,39 @@ public class Pet
     public void DisplayArt()
     {
         Console.ForegroundColor = ConsoleColor.Yellow;
+
+        switch (Species)
+        {
+            case "Dog":
+                Console.WriteLine(@"  / \__
+ (    @\___
+ /         O
+/   (_____/
+/_____/   U");
+                break;
+
+            case "Cat":
+                Console.WriteLine(@" /\_/\
+( o.o )
+ > ^ <");
+                break;
+
+            case "Squirrel":
+                Console.WriteLine(@" (\__/) 
+ ( . .) 🍪
+ / >🌰");
+                break;
+
+            case "Rabbit":
+                Console.WriteLine(@" (\_/)
+ ( •_•)
+ / >🥕");
+                break;
+        }
+
+        Console.ResetColor();
+        Console.ForegroundColor = ConsoleColor.Yellow;
+
         if (Species == "Dog")
         {
             if (Happiness >= 7)
@@ -67,32 +100,28 @@ public class Pet
  (    @\___
  /         O
 /   (_____/
-/_____/   U
-");
+/_____/   U");
             else if (Hunger >= 7)
                 Console.WriteLine(@"
   / \__
  (    @\___
  /         ~
 /   (_____/
-/_____/   U
-");
+/_____/   U");
             else if (Energy <= 3)
                 Console.WriteLine(@"
   / \__
  (    @\___
  /         z
 /   (_____/
-/_____/   U
-");
+/_____/   U");
             else
                 Console.WriteLine(@"
   / \__
  (    @\___
  /         O
 /   (_____/
-/_____/   U
-");
+/_____/   U");
         }
         else if (Species == "Cat")
         {
@@ -100,27 +129,24 @@ public class Pet
                 Console.WriteLine(@"
  /\_/\
 ( ^.^ )
- > ^ <
-");
+ > ^ <");
             else if (Hunger >= 7)
                 Console.WriteLine(@"
  /\_/\
 ( o.o )
- > ~ <
-");
+ > ~ <");
             else if (Energy <= 3)
                 Console.WriteLine(@"
  /\_/\
 ( -.- )
- > _ <
-");
+ > _ <");
             else
                 Console.WriteLine(@"
  /\_/\
 ( o.o )
- > ^ <
-");
+ > ^ <");
         }
+
         Console.ResetColor();
     }
 }

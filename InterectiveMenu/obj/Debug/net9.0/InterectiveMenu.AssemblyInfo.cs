@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("InterectiveMenu")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9b6a40c92968621a0074a82c84d64823b947a703")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ebfa421df6888cc8f6642f05dc5b043f9a81616e")]
 [assembly: System.Reflection.AssemblyProductAttribute("InterectiveMenu")]
 [assembly: System.Reflection.AssemblyTitleAttribute("InterectiveMenu")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
