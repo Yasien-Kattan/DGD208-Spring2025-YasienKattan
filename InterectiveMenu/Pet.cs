@@ -1,152 +1,102 @@
 using System;
 
-public class Pet
+namespace PetSimulator
 {
-    public string Name { get; set; }
-    public string Species { get; set; }
-    public int Hunger { get; set; }
-    public int Happiness { get; set; }
-    public int Energy { get; set; }
-
-    public Pet(string name, string species)
+    public class Pet
     {
-        Name = name;
-        Species = species;
-        Hunger = 5;
-        Happiness = 5;
-        Energy = 5;
-    }
+        public string Name { get; }
+        public PetType Species { get; }
+        public int Hunger { get; private set; }
+        public int Sleep { get; private set; }
+        public int Fun { get; private set; }
+        public PetState State { get; private set; }
 
-    public void Feed()
-    {
-        Hunger = Math.Max(0, Hunger - 2);
-        Happiness = Math.Min(10, Happiness + 1);
-        Console.WriteLine($"\n\u001b[32mYou fed {Name}. Hunger decreased, happiness increased!\u001b[0m");
-    }
-
-    public void Play()
-    {
-        Happiness = Math.Min(10, Happiness + 2);
-        Energy = Math.Max(0, Energy - 1);
-        Console.WriteLine($"\n\u001b[32mYou played with {Name}. Happiness increased, energy decreased!\u001b[0m");
-    }
-
-    public void Rest()
-    {
-        Energy = Math.Min(10, Energy + 2);
-        Hunger = Math.Min(10, Hunger + 1);
-        Console.WriteLine($"\n\u001b[32m{Name} rested. Energy increased, hunger slightly increased!\u001b[0m");
-    }
-
-    public void Status()
-    {
-        Console.WriteLine($"\n\u001b[36m{Name}'s Status ({Species}):\u001b[0m");
-        Console.WriteLine($"Hunger: {Hunger}/10");
-        Console.WriteLine($"Happiness: {Happiness}/10");
-        Console.WriteLine($"Energy: {Energy}/10");
-    }
-
-    public void Update()
-    {
-        Hunger = Math.Min(10, Hunger + 1);
-        Energy = Math.Max(0, Energy - 1);
-        if (Hunger >= 8)
+        public Pet(string name, PetType species)
         {
-            Happiness = Math.Max(0, Happiness - 1);
-        }
-    }
-
-    public void DisplayArt()
-    {
-        Console.ForegroundColor = ConsoleColor.Yellow;
-
-        switch (Species)
-        {
-            case "Dog":
-                Console.WriteLine(@"  / \__
- (    @\___
- /         O
-/   (_____/
-/_____/   U");
-                break;
-
-            case "Cat":
-                Console.WriteLine(@" /\_/\
-( o.o )
- > ^ <");
-                break;
-
-            case "Squirrel":
-                Console.WriteLine(@" (\__/) 
- ( . .) 🍪
- / >🌰");
-                break;
-
-            case "Rabbit":
-                Console.WriteLine(@" (\_/)
- ( •_•)
- / >🥕");
-                break;
+            Name = name;
+            Species = species;
+            Hunger = 50;
+            Sleep = 50;
+            Fun = 50;
+            State = PetState.Alive;
         }
 
-        Console.ResetColor();
-        Console.ForegroundColor = ConsoleColor.Yellow;
-
-        if (Species == "Dog")
+        public void Feed()
         {
-            if (Happiness >= 7)
-                Console.WriteLine(@"
-  / \__
- (    @\___
- /         O
-/   (_____/
-/_____/   U");
-            else if (Hunger >= 7)
-                Console.WriteLine(@"
-  / \__
- (    @\___
- /         ~
-/   (_____/
-/_____/   U");
-            else if (Energy <= 3)
-                Console.WriteLine(@"
-  / \__
- (    @\___
- /         z
-/   (_____/
-/_____/   U");
-            else
-                Console.WriteLine(@"
-  / \__
- (    @\___
- /         O
-/   (_____/
-/_____/   U");
-        }
-        else if (Species == "Cat")
-        {
-            if (Happiness >= 7)
-                Console.WriteLine(@"
- /\_/\
-( ^.^ )
- > ^ <");
-            else if (Hunger >= 7)
-                Console.WriteLine(@"
- /\_/\
-( o.o )
- > ~ <");
-            else if (Energy <= 3)
-                Console.WriteLine(@"
- /\_/\
-( -.- )
- > _ <");
-            else
-                Console.WriteLine(@"
- /\_/\
-( o.o )
- > ^ <");
+            if (State == PetState.Dead) return;
+            Hunger = Math.Min(100, Hunger + 20);
+            Console.WriteLine($"{Name} has been fed. Hunger increased!");
         }
 
-        Console.ResetColor();
+        public void Play()
+        {
+            if (State == PetState.Dead) return;
+            Fun = Math.Min(100, Fun + 20);
+            Hunger = Math.Max(0, Hunger - 10);
+            Sleep = Math.Max(0, Sleep - 10);
+            Console.WriteLine($"{Name} played and had fun!");
+            CheckIfDead();
+        }
+
+        public void Rest()
+        {
+            if (State == PetState.Dead) return;
+            Sleep = Math.Min(100, Sleep + 20);
+            Hunger = Math.Max(0, Hunger - 10);
+            Console.WriteLine($"{Name} rested well.");
+            CheckIfDead();
+        }
+
+        public void DecreaseStats()
+        {
+            if (State == PetState.Dead) return;
+
+            Hunger = Math.Max(0, Hunger - 1);
+            Sleep = Math.Max(0, Sleep - 1);
+            Fun = Math.Max(0, Fun - 1);
+
+            CheckIfDead();
+        }
+
+        private void CheckIfDead()
+        {
+            if (Hunger == 0 || Sleep == 0 || Fun == 0)
+            {
+                State = PetState.Dead;
+                Console.WriteLine($"\n\u001b[31mSadly, {Name} has died.\u001b[0m");
+            }
+        }
+
+        public void Status()
+        {
+            Console.WriteLine($"Name: {Name}");
+            Console.WriteLine($"Species: {Species}");
+            Console.WriteLine($"Hunger: {Hunger}");
+            Console.WriteLine($"Sleep: {Sleep}");
+            Console.WriteLine($"Fun: {Fun}");
+            Console.WriteLine($"State: {State}");
+        }
+
+        public void DisplayArt()
+        {
+            switch (Species)
+            {
+                case PetType.Dog:
+                    Console.WriteLine(" /\\_/\\\n( o.o )\n > ^ <");
+                    break;
+                case PetType.Cat:
+                    Console.WriteLine(" /\\_/\\\n( =^.^= )\n (\")_(\")");
+                    break;
+                case PetType.Rabbit:
+                    Console.WriteLine(" (\\_/)\n ( . .)\n c(\")(\")");
+                    break;
+                case PetType.Squirrel:
+                    Console.WriteLine(" (\\_/) \n (o.o)\n > ^ <");
+                    break;
+                default:
+                    Console.WriteLine("Pet art unavailable.");
+                    break;
+            }
+        }
     }
 }

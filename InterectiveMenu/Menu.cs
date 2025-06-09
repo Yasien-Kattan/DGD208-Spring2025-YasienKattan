@@ -1,33 +1,31 @@
 using System;
 
-public class Menu
+namespace PetSimulator
 {
-    private readonly string[] _options;
-    private readonly int _left;
-    private readonly int _top;
-    private int _selectedIndex;
-    private int _lastIndex;
-
-    public Menu(string[] options, int left, int top)
+    public class Menu
     {
-        _options = options;
-        _left = left;
-        _top = top;
-        _selectedIndex = 0;
-        _lastIndex = -1;
-    }
+        private readonly string[] _options;
+        private readonly int _left;
+        private readonly int _top;
+        private int _selectedIndex;
 
-    public int Run()
-    {
-        ConsoleKeyInfo key;
-        bool isSelected = false;
-        Console.CursorVisible = false;
-
-        DrawMenu();
-
-        while (!isSelected)
+        public Menu(string[] options, int left, int top)
         {
-            if (Console.KeyAvailable)
+            _options = options;
+            _left = left;
+            _top = top;
+            _selectedIndex = 0;
+        }
+
+        public int Run()
+        {
+            ConsoleKeyInfo key;
+            bool isSelected = false;
+            Console.CursorVisible = false;
+
+            DrawMenu();
+
+            while (!isSelected)
             {
                 key = Console.ReadKey(true);
 
@@ -35,44 +33,41 @@ public class Menu
                 {
                     case ConsoleKey.DownArrow:
                         _selectedIndex = (_selectedIndex + 1) % _options.Length;
+                        DrawMenu();
                         break;
-
                     case ConsoleKey.UpArrow:
                         _selectedIndex = (_selectedIndex - 1 + _options.Length) % _options.Length;
+                        DrawMenu();
                         break;
-
                     case ConsoleKey.Enter:
                         isSelected = true;
                         break;
                 }
-
-                if (!isSelected)
-                    DrawMenu();
             }
+
+            Console.CursorVisible = true;
+            return _selectedIndex;
         }
 
-        Console.CursorVisible = true;
-        return _selectedIndex;
-    }
-
-    private void DrawMenu()
-    {
-        for (int i = 0; i < _options.Length; i++)
+        private void DrawMenu()
         {
-            Console.SetCursorPosition(_left, _top + i);
-
-            string line = new string(' ', Console.WindowWidth - _left - 1); // Clear old content
-            Console.Write(line);
-
-            Console.SetCursorPosition(_left, _top + i);
-
-            if (i == _selectedIndex)
+            for (int i = 0; i < _options.Length; i++)
             {
-                Console.Write($"✔   \u001b[32m{_options[i]}\u001b[0m");
-            }
-            else
-            {
-                Console.Write($"    {_options[i]}");
+                Console.SetCursorPosition(_left, _top + i);
+                Console.Write(new string(' ', Console.WindowWidth - _left));
+                Console.SetCursorPosition(_left, _top + i);
+
+                if (i == _selectedIndex)
+                {
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.ForegroundColor = ConsoleColor.Black;
+                    Console.WriteLine(_options[i].PadRight(Console.WindowWidth - _left));
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.WriteLine(_options[i]);
+                }
             }
         }
     }
