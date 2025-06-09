@@ -37,8 +37,9 @@ namespace PetSimulator
             Console.Clear();
             Console.WriteLine("C# Pet Simulator");
             Console.WriteLine("Created by Yaseen Kattan");
-            Console.WriteLine("Student Number: [Your Student Number]");
-            Console.WriteLine("Course: DGD208 - Programming II");
+            Console.WriteLine("Ricardo Gerbaudo's How to create Interactive Menu in console app using C# video From Youtube.");
+            Console.WriteLine("https://www.youtube.com/watch?v=YyD1MRJY0qI&t=96s");
+            Console.WriteLine("Fixing the Interactive Mebu to work, fixing some errors being heild in the proccess to the end, orgenize my idea, and acsii art by Chat gpt 4.0");
             Console.WriteLine("\nPress any key to return to the main menu...");
             Console.ReadKey();
         }

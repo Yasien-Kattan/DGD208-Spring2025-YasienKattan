@@ -82,19 +82,37 @@ namespace PetSimulator
             switch (Species)
             {
                 case PetType.Dog:
-                    Console.WriteLine(" /\\_/\\\n( o.o )\n > ^ <");
+                    Console.WriteLine(@"
+,-.___,-.
+\_/_ _\_/
+  )O_O(
+ { (_) }
+  `-^-'  
+");
                     break;
                 case PetType.Cat:
-                    Console.WriteLine(" /\\_/\\\n( =^.^= )\n (\")_(\")");
+                    Console.WriteLine(@"
+ /\_/\        
+( o.o )
+ > ^ <
+");
                     break;
                 case PetType.Rabbit:
-                    Console.WriteLine(" (\\_/)\n ( . .)\n c(\")(\")");
+                    Console.WriteLine(@"
+ (\_/)
+ ( •_•)
+ / >🍎
+");
                     break;
                 case PetType.Squirrel:
-                    Console.WriteLine(" (\\_/) \n (o.o)\n > ^ <");
+                    Console.WriteLine(@"
+ (\__/)
+ (o•ᴥ•o)
+ / >🌰
+");
                     break;
                 default:
-                    Console.WriteLine("Pet art unavailable.");
+                    Console.WriteLine($"{Name} the {Species}");
                     break;
             }
         }

@@ -1,73 +1,71 @@
 using System;
 
-namespace PetSimulator
+public class Menu
 {
-    public class Menu
+    private readonly string[] _options;
+    private readonly int _left;
+    private readonly int _top;
+    private int _selectedIndex;
+
+    public Menu(string[] options, int left, int top)
     {
-        private readonly string[] _options;
-        private readonly int _left;
-        private readonly int _top;
-        private int _selectedIndex;
+        _options = options;
+        _left = left;
+        _top = top;
+        _selectedIndex = 0;
+    }
 
-        public Menu(string[] options, int left, int top)
+    public int Run()
+    {
+        ConsoleKeyInfo key;
+        bool isSelected = false;
+        Console.CursorVisible = false;
+
+        DrawMenu();
+
+        while (!isSelected)
         {
-            _options = options;
-            _left = left;
-            _top = top;
-            _selectedIndex = 0;
-        }
+            key = Console.ReadKey(true);
 
-        public int Run()
-        {
-            ConsoleKeyInfo key;
-            bool isSelected = false;
-            Console.CursorVisible = false;
-
-            DrawMenu();
-
-            while (!isSelected)
+            switch (key.Key)
             {
-                key = Console.ReadKey(true);
-
-                switch (key.Key)
-                {
-                    case ConsoleKey.DownArrow:
-                        _selectedIndex = (_selectedIndex + 1) % _options.Length;
-                        DrawMenu();
-                        break;
-                    case ConsoleKey.UpArrow:
-                        _selectedIndex = (_selectedIndex - 1 + _options.Length) % _options.Length;
-                        DrawMenu();
-                        break;
-                    case ConsoleKey.Enter:
-                        isSelected = true;
-                        break;
-                }
+                case ConsoleKey.DownArrow:
+                    _selectedIndex = (_selectedIndex + 1) % _options.Length;
+                    DrawMenu();
+                    break;
+                case ConsoleKey.UpArrow:
+                    _selectedIndex = (_selectedIndex - 1 + _options.Length) % _options.Length;
+                    DrawMenu();
+                    break;
+                case ConsoleKey.Enter:
+                    isSelected = true;
+                    break;
             }
-
-            Console.CursorVisible = true;
-            return _selectedIndex;
         }
 
-        private void DrawMenu()
-        {
-            for (int i = 0; i < _options.Length; i++)
-            {
-                Console.SetCursorPosition(_left, _top + i);
-                Console.Write(new string(' ', Console.WindowWidth - _left));
-                Console.SetCursorPosition(_left, _top + i);
+        Console.CursorVisible = true;
+        return _selectedIndex;
+    }
 
-                if (i == _selectedIndex)
-                {
-                    Console.BackgroundColor = ConsoleColor.Green;
-                    Console.ForegroundColor = ConsoleColor.Black;
-                    Console.WriteLine(_options[i].PadRight(Console.WindowWidth - _left));
-                    Console.ResetColor();
-                }
-                else
-                {
-                    Console.WriteLine(_options[i]);
-                }
+    private void DrawMenu()
+    {
+        for (int i = 0; i < _options.Length; i++)
+        {
+            Console.SetCursorPosition(_left, _top + i);
+            Console.Write(new string(' ', Console.WindowWidth - _left)); // Clear previous line
+
+            Console.SetCursorPosition(_left, _top + i);
+
+            if (i == _selectedIndex)
+            {
+                Console.Write(" ✔ ");
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine(_options[i]);
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.WriteLine($"   {_options[i]}");
             }
         }
     }
